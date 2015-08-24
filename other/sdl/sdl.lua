@@ -9,7 +9,7 @@ SDL = {
 			option.use_osxframework = false
 			option.lib_path = nil
 			
-			if ExecuteSilent("sdl-config") > 0 and ExecuteSilent("sdl-config --cflags") == 0 then
+			if ExecuteSilent("sdl2-config") > 0 and ExecuteSilent("sdl2-config --cflags") == 0 then
 				option.value = true
 				option.use_sdlconfig = true
 			end
@@ -31,13 +31,13 @@ SDL = {
 		
 		local apply = function(option, settings)
 			if option.use_sdlconfig == true then
-				settings.cc.flags:Add("`sdl-config --cflags`")
-				settings.link.flags:Add("`sdl-config --libs`")
+				settings.cc.flags:Add("`sdl2-config --cflags`")
+				settings.link.flags:Add("`sdl2-config --libs`")
 			end
 
 			if option.use_osxframework == true then
-				client_settings.link.frameworks:Add("SDL")
-				client_settings.cc.includes:Add("/Library/Frameworks/SDL.framework/Headers")
+				client_settings.link.frameworks:Add("SDL2")
+				client_settings.cc.includes:Add("/Library/Frameworks/SDL2.framework/Headers")
 			end
 
 			if option.use_winlib > 0 then
@@ -47,8 +47,8 @@ SDL = {
 				else
 					settings.link.libpath:Add(SDL.basepath .. "/lib64")
 				end
-				settings.link.libs:Add("SDL")
-				settings.link.libs:Add("SDLmain")
+				settings.link.libs:Add("SDL2")
+				settings.link.libs:Add("SDLmain2")
 			end
 		end
 		
@@ -61,7 +61,7 @@ SDL = {
 		
 		local display = function(option)
 			if option.value == true then
-				if option.use_sdlconfig == true then return "using sdl-config" end
+				if option.use_sdlconfig == true then return "using sdl2-config" end
 				if option.use_winlib == 32 then return "using supplied win32 libraries" end
 				if option.use_winlib == 64 then return "using supplied win64 libraries" end
 				if option.use_osxframework == true then return "using osx framework" end
